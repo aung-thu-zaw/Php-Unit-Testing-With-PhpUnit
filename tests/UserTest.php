@@ -1,14 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use classes\User;
+use Classes\User;
 
 class UserTest extends TestCase
 {
     public function test_return_name()
     {
-        require "./classes/User.php";
-
         $user = new User("Aung Thu Zaw");
 
         $this->assertEquals("Aung Thu Zaw", $user->getName());
