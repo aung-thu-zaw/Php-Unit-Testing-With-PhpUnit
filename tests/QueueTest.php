@@ -1,6 +1,7 @@
 <?php
 
 use Classes\Queue;
+use Classes\QueueException;
 use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase
@@ -56,5 +57,27 @@ class QueueTest extends TestCase
         static::$queue->push("second item");
 
         $this->assertEquals("first item", static::$queue->shift());
+    }
+
+    public function test_max_number_of_items_can_be_added()
+    {
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+            static::$queue->push($i);
+        }
+
+        $this->assertEquals(Queue::MAX_ITEMS, static::$queue->getCount());
+    }
+
+    public function test_exception_thrown_when_adding_an_item_of_full_queue()
+    {
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+            static::$queue->push($i);
+        }
+
+        $this->expectException(QueueException::class);
+
+        $this->expectExceptionMessage("Queue is full!");
+
+        static::$queue->push("last");
     }
 }
