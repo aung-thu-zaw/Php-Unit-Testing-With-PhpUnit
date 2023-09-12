@@ -4,7 +4,9 @@ namespace Classes;
 
 class User
 {
-    public function __construct(protected $name="")
+    protected $mailer;
+
+    public function __construct(protected $name = "", protected $email = null)
     {
 
     }
@@ -13,5 +15,17 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setMailer(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
+    public function notify($message)
+    {
+        $this->mailer->send($this->email, $message);
+
+        return true;
     }
 }
